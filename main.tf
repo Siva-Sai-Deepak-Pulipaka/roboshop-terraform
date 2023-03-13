@@ -6,3 +6,4 @@ module "ec2" {
     password      = try(each.value["password"], null)
   
 }
+//best practice is using for loop when we are dealing with module.

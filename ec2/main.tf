@@ -7,7 +7,7 @@ data "aws_ami" "ami" {
 //The above data block is prerequisite for allowing to create ec2 instance
 
 resource "aws_instance" "ec2" {
-  ami           = data.aws_ami.ami
+  ami           = data.aws_ami.ami.image_id
   instance_type = var.instance_type
   vpc_security_group_ids = [aws_security_group.sg.id]
   tags = {
@@ -18,8 +18,8 @@ resource "aws_instance" "ec2" {
 resource "null_resource" "null" {
     provisioner "remote-exec" {
     connection {
-        host = aws_instance.ec2.public_ip
-        user = "centos"
+        host     = aws_instance.ec2.public_ip
+        user     = "centos"
         password = "DevOps321"
     }
     inline = [
@@ -68,7 +68,5 @@ resource "aws_route53_record" "record" {
 
 variable "component" {}
 variable "instance_type" {}
-variable "env" {
-    default = "dev"
-}
+variable "env" {}
 variable "password" {}
