@@ -36,7 +36,7 @@ resource "null_resource" "null" {
 resource "aws_security_group" "sg" {
   name        = "${var.component}-${var.env}-sg"
   description = "Allow TLS inbound traffic"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = "vpc-028de9f617648cdac"
 
   ingress {
     description      = "Allowing all for incoming"
