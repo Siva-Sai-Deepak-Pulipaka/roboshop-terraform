@@ -6,7 +6,7 @@ data "aws_ami" "ami" {
 
 //The above data block is prerequisite for allowing to create ec2 instance
 
-resource "aws_instance" "ec2" {
+resource "aws_spot_instance_request" "ec2" {
   ami           = data.aws_ami.ami.image_id
   instance_type = var.instance_type
   vpc_security_group_ids = [aws_security_group.sg.id]
@@ -18,7 +18,7 @@ resource "aws_instance" "ec2" {
 resource "null_resource" "provisioner" {
     provisioner "remote-exec" {
     connection {
-        host     = aws_instance.ec2.public_ip
+        host     = aws_spot_instance_request.ec2.public_ip
         user     = "centos"
         password = "DevOps321"
     }
@@ -62,7 +62,7 @@ resource "aws_route53_record" "record" {
   name    = "${var.component}-dev.easydevops.online"
   type    = "A"
   ttl     = 30
-  records = [aws_instance.ec2.private_ip]
+  records = [aws_spot_instance_request.ec2.private_ip]
 }
 
 variable "component" {}
