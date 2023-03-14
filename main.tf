@@ -7,6 +7,3 @@ module "ec2" {
   
 }
 //best practice is using for loop when we are dealing with module.
-resource "aws_instance" "spot" {
-    instance_type = module.ec2.instance_type
-}
