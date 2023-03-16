@@ -13,14 +13,12 @@ resource "aws_spot_instance_request" "ec2" {
   tags = {
     Name = var.component
   }
-  count                   = var.index
-
+    
 }  
 resource "null_resource" "provisioner" {
   //depends_on = [aws_spot_instance_request.ec2] //we have included this line because remote-exec will take some time. so we have included depends_on parameter. This will ensure you after the instance is fully created which we mentioned in depends on parameter, then only remote-exec will request to connect.  
     provisioner "remote-exec" {
-      depends_on   = [aws_spot_instance_request.ec2[var.instances[count.index] - 1]]
-        connection {
+    connection {
           host     = aws_spot_instance_request.ec2.public_ip
           user     = "centos"
           password = "DevOps321"
@@ -74,4 +72,3 @@ variable "env" {
   default = "dev"
 }
 variable "password" {}
-variable "index" {}
