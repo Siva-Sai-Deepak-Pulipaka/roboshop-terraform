@@ -7,18 +7,19 @@ data "aws_ami" "ami" {
 //The above data block is prerequisite for allowing to create ec2 instance
 
 resource "aws_spot_instance_request" "ec2" {
+  count                   = length(var.instances) 
   ami                     = data.aws_ami.ami.image_id
   instance_type           = var.instance_type
   vpc_security_group_ids  = [aws_security_group.sg.id]
 
   tags = {
-    Name = var.component
+    Name = var.instances.component[count.index]
   }
     
 }
 
 resource "null_resource" "provisioner" {
-  depends_on = [aws_spot_instance_request.ec2[var.instance_count]] //we have included this line because remote-exec will take some time. so we have included depends_on parameter. This will ensure you after the instance is fully created which we mentioned in depends on parameter, then only remote-exec will request to connect.  
+  depends_on = [aws_spot_instance_request.ec2] //we have included this line because remote-exec will take some time. so we have included depends_on parameter. This will ensure you after the instance is fully created which we mentioned in depends on parameter, then only remote-exec will request to connect.  
     provisioner "remote-exec" {
     connection {
           host     = aws_spot_instance_request.ec2.public_ip
