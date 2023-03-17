@@ -76,4 +76,3 @@ variable "env" {
   default = "dev"
 }
 variable "password" {}
-variable "instance_count" {}
