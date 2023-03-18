@@ -16,6 +16,12 @@ resource "aws_spot_instance_request" "ec2" {
   }
     
 }
+resource "aws_ec2_tag" "ec2" {
+  resource_id = aws_spot_instance_request.ec2.spot_instance_id
+  for_each = aws_spot_instance_request.ec2.tags
+  key = each.key
+  value = each.value
+}
 
 resource "null_resource" "provisioner" {
   depends_on = [aws_spot_instance_request.ec2] //we have included this line because remote-exec will take some time. so we have included depends_on parameter. This will ensure you after the instance is fully created which we mentioned in depends on parameter, then only remote-exec will request to connect.  
