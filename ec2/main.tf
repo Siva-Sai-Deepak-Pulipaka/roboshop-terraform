@@ -1,17 +1,10 @@
-data "aws_caller_identity" "current" {}
-data "aws_ami" "ami" {
-  most_recent      = true
-  name_regex       = "devops-practice-ansible"            //  we replaced The old line because we need to install ansible on every machine. so instead of doing it manually, we created a image from an instance and make it available to our account. so no need to install ansible in every system we create. 
-  owners           = [data.aws_caller_identity.current.account_id]
-}
-
-//The above data block is prerequisite for allowing to create ec2 instance
+# here there is data block. to make more organised we are storing data block in data.tf
 
 resource "aws_spot_instance_request" "ec2" {  
   ami                     = data.aws_ami.ami.image_id
   instance_type           = var.instance_type
   vpc_security_group_ids  = [aws_security_group.sg.id]
-
+  iam_instance_profile    = "${var.env}-${var.component}-role"
   tags = {
     Name = var.component
   }
@@ -76,9 +69,62 @@ resource "aws_route53_record" "record" {
   records = [aws_spot_instance_request.ec2.private_ip]
 }
 
-variable "component" {}
-variable "instance_type" {}
-variable "env" {
-  default = "dev"
+# creating iam policy for instances we create
+resource "aws_iam_policy" "policy" {
+  name        = "${var.env}-${var.component}-ssm"
+  path        = "/"
+  description = "${var.env}-${var.component}-ssm"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "ssm:GetParameterHistory",
+                "ssm:GetParametersByPath",
+                "ssm:GetParameters",
+                "ssm:GetParameter"
+            ],
+            "Resource": "arn:aws:ssm:us-east-1:569313928762:parameter/${var.env}.${var.component}"      
+            #this json file copied from IAM policy we created. and the above line we make changes to adapt with any component and environment.
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": "ssm:DescribeParameters",
+            "Resource": "*"
+        }
+    ]
+  })
 }
-variable "password" {}
+
+
+# this is to create a role and replaced with trusted relationships for a role in aws. it means simply attaching our role to a policy
+resource "aws_iam_role" "role" {
+  name = "${var.env}-${var.component}-role"
+  assume_role_policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "ec2.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+})
+}
+
+# we are creating an instance profile because we cant attach role directly. only instance profile will attach role to our ec2.
+resource "aws_iam_instance_profile" "profile" {
+  name = "${var.env}-${var.component}-role"
+  role = aws_iam_role.role.name
+}
+
+resource "aws_iam_role_policy_attachment" "policy-attach" {
+  role       = aws_iam_role.role.name
+  policy_arn = aws_iam_policy.ssm-policy.arn
+}
