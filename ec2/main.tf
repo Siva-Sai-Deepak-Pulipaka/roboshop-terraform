@@ -87,7 +87,7 @@ resource "aws_iam_policy" "ssm-policy" {
                 "ssm:GetParameters",
                 "ssm:GetParameter"
             ],
-            "Resource": "arn:aws:ssm:us-east-1:569313928762:parameter/${var.env}.${var.component}"      
+            "Resource": "arn:aws:ssm:us-east-1:569313928762:parameter/${var.env}.${var.component}*"      
             #this json file copied from IAM policy we created. and the above line we make changes to adapt with any component and environment.
         },
         {
