@@ -7,6 +7,7 @@ resource "aws_instance" "ec2" {
   iam_instance_profile    = "${var.env}-${var.component}-role"
   tags = {
     Name = var.component
+    Monitor = var.monitor ? "yes" : "no"        
   }
     
 }
@@ -21,6 +22,10 @@ resource "aws_instance" "ec2" {
 
 resource "null_resource" "provisioner" {
   # depends_on = [aws_spot_instance.ec2] //we have included this line because remote-exec will take some time. so we have included depends_on parameter. This will ensure you after the instance is fully created which we mentioned in depends on parameter, then only remote-exec will request to connect.  
+
+    depends_on = [
+      aws_route53_record.record   #we included this line because we need to let all the dns records get created and then only proceed further.
+    ]
     provisioner "remote-exec" {
     connection {
           host     = aws_instance.ec2.public_ip
