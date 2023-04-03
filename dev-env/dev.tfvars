@@ -2,7 +2,7 @@ env = "dev"
 
 vpc = {
     main = {                            #naming is our convinience. main will not leads to collision of another vpc if it is created. 
-        vpc_cidr = "10.0.0.0/14"
+        vpc_cidr = "10.0.0.0/16"
     
     public_subnets = {
         public-azone1 = {
