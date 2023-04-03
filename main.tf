@@ -1,7 +1,6 @@
 module "vpc" {
   source = "git::https://github.com/Siva-Sai-Deepak-Pulipaka/terraform-vpc.git"
 
-  name = "my-vpc"
   env = var.env
   tags = var.tags
 
