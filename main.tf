@@ -1,10 +1,12 @@
-module "ec2" {
-    for_each       = var.instances
-    source         = "./ec2"
-    component      = each.value["name"]
-    instance_type  = each.value["type"]
-    env            = var.env
-    monitor        = try(each.value["monitor"], false)
-  
+module "vpc" {
+  source = "git::https://github.com/Siva-Sai-Deepak-Pulipaka/terraform-vpc.git"
+
+  name = "my-vpc"
+  env = var.env
+  tags = var.tags
+
+  for_each = var.vpc
+  vpc_cidr = each.value["vpc_cidr"]
+  public_subnets = each.value["public_subnets"]
+  private_subnets= each.value["private_subnets"]
 }
-//best practice is using for loop when we are dealing with module.
