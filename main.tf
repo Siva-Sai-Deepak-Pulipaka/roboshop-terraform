@@ -23,7 +23,7 @@ module "docdb" {
   preferred_backup_window = each.value["preferred_backup_window"]
   skip_final_snapshot     = each.value["skip_final_snapshot"]
   
-  db_subnet_ids           = local.db_subnet_ids
+  subnet_ids              = local.db_subnet_ids
   
   no_of_instances         = each.value["no_of_instances"]
   instance_class          = each.value["instance_class"]
@@ -42,7 +42,7 @@ module "rds" {
   preferred_backup_window = each.value["preferred_backup_window"]
   skip_final_snapshot     = each.value["skip_final_snapshot"]
 
-  db_subnet_ids           = local.db_subnet_ids
+  subnet_ids              = local.db_subnet_ids
   
   no_of_instances         = each.value["no_of_instances"]
   instance_class          = each.value["instance_class"]
@@ -53,13 +53,14 @@ module "elasticache" {
   source = "git::https://github.com/Siva-Sai-Deepak-Pulipaka/terraform-elasticache-module.git"
   env    = var.env
   tags   = var.tags
+  subnet_ids = local.db_subnet_ids
 
   for_each                = var.elasticache
   engine                  = each.value["engine"]
   engine_version          = each.value["engine_version"]
   num_cache_nodes         = each.value["num_cache_nodes"]
   node_type               = each.value["node_type"]
-  subnet_ids              = local.db_subnet_ids
+ 
 
 }
 
@@ -68,6 +69,7 @@ module "rabbitmq" {
   env    = var.env
   tags   = var.tags
   subnet_ids = local.db_subnet_ids
+  
 
   for_each                = var.rabbitmq
   instance_type           = each.value["instance_type"]
