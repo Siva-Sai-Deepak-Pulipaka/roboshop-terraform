@@ -3,7 +3,7 @@ module "vpc" {
   env    = var.env
   tags   = var.tags
   default_route_table = var.default_route_table
-  default_vpc_id = var.default_vpc_id
+  default_vpc_id      = var.default_vpc_id
 
   for_each       = var.vpc
   vpc_cidr       = each.value["vpc_cidr"]
@@ -49,3 +49,24 @@ module "rds" {
 
 }
 
+module "elasticache" {
+  source = "git::https://github.com/Siva-Sai-Deepak-Pulipaka/terraform-elasticache-module.git"
+  env    = var.env
+  tags   = var.tags
+
+  for_each                = var.elasticache
+  engine                  = each.value["engine"]
+  engine_version          = each.value["engine_version"]
+  num_cache_nodes         = each.value["num_cache_nodes"]
+  node_type               = each.value["node_type"]
+
+}
+
+module "rabbitmq" {
+  source = "git::https://github.com/Siva-Sai-Deepak-Pulipaka/terraform-rabbitmq-module.git"
+  env    = var.env
+  tags   = var.tags
+
+  for_each                = var.rabbitmq
+  instance_type           = each.value["instance_type"]
+}

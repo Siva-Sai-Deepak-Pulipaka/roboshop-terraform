@@ -53,8 +53,8 @@ vpc = {
 
 docdb = {
     main = {
-        engine = "docdb"
-        engine_version = "4.0.0"
+        engine                  = "docdb"
+        engine_version          = "4.0.0"
         backup_retention_period = 2
         preferred_backup_window = "07:00-09:00"
         skip_final_snapshot     = true    #this is used as backup. before deleting it will store as snapshot. 
@@ -65,11 +65,27 @@ docdb = {
 
 rds = {
     main = {
-        engine = "aurora-mysql"
-        engine_version = "5.7.mysql_aurora.2.11.1"
+        engine                  = "aurora-mysql"
+        engine_version          = "5.7.mysql_aurora.2.11.1"
         backup_retention_period = 1
         preferred_backup_window = "07:00-09:00"
-        no_of_instances   =  1
-        instance_class  = "db.t3.small"
+        no_of_instances         =  1
+        instance_class          = "db.t3.small"
+    }
+}
+
+elasticache = {
+    main = {
+        engine                  = "redis"
+        engine_version          = "6.x"     #we are using redis 6
+        node_type               = "cache.t3.micro"
+        num_cache_nodes         = 1
+
+    }
+}
+
+rabbitmq = {
+    main = {
+        instance_type           = "t3.micro"
     }
 }
