@@ -59,6 +59,7 @@ module "elasticache" {
   engine_version          = each.value["engine_version"]
   num_cache_nodes         = each.value["num_cache_nodes"]
   node_type               = each.value["node_type"]
+  subnet_ids              = local.db_subnet_ids
 
 }
 
