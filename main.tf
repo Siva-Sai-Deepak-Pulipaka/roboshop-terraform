@@ -22,11 +22,30 @@ module "docdb" {
   backup_retention_period = each.value["backup_retention_period"]
   preferred_backup_window = each.value["preferred_backup_window"]
   skip_final_snapshot     = each.value["skip_final_snapshot"]
+  
   db_subnet_ids           = local.db_subnet_ids
+  
   no_of_instances         = each.value["no_of_instances"]
   instance_class          = each.value["instance_class"]
 
 }
 
+module "rds" {
+  source = "git::https://github.com/Siva-Sai-Deepak-Pulipaka/terraform-rds-module.git"
+  env    = var.env
+  tags   = var.tags
 
+  for_each                = var.rds
+  engine                  = each.value["engine"]
+  engine_version          = each.value["engine_version"]
+  backup_retention_period = each.value["backup_retention_period"]
+  preferred_backup_window = each.value["preferred_backup_window"]
+  skip_final_snapshot     = each.value["skip_final_snapshot"]
+
+  db_subnet_ids           = local.db_subnet_ids
+  
+  no_of_instances         = each.value["no_of_instances"]
+  instance_class          = each.value["instance_class"]
+
+}
 
