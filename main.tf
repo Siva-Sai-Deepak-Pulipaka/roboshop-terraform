@@ -15,7 +15,7 @@ module "docdb" {
   source = "git::https://github.com/Siva-Sai-Deepak-Pulipaka/terraform-docdb-module.git"
   env    = var.env
   tags   = var.tags
-  subnet_ids              = local.subnet_ids
+  subnet_ids              = local.db_subnet_ids
 
   for_each                = var.docdb
   engine                  = each.value["engine"]
@@ -32,7 +32,7 @@ module "rds" {
   source = "git::https://github.com/Siva-Sai-Deepak-Pulipaka/terraform-rds-module.git"
   env    = var.env
   tags   = var.tags
-  subnet_ids              = local.subnet_ids
+  subnet_ids              = local.db_subnet_ids
 
   for_each                = var.rds
   engine                  = each.value["engine"]
@@ -48,7 +48,7 @@ module "elasticache" {
   source = "git::https://github.com/Siva-Sai-Deepak-Pulipaka/terraform-elasticache-module.git"
   env    = var.env
   tags   = var.tags
-  subnet_ids = local.subnet_ids
+  subnet_ids = local.db_subnet_ids
 
   for_each                = var.elasticache
   engine                  = each.value["engine"]
@@ -63,7 +63,7 @@ module "rabbitmq" {
   source = "git::https://github.com/Siva-Sai-Deepak-Pulipaka/terraform-rabbitmq-module.git"
   env    = var.env
   tags   = var.tags
-  subnet_ids = local.subnet_ids
+  subnet_ids = local.db_subnet_ids
   
 
   for_each                = var.rabbitmq
