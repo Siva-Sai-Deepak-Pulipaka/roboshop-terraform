@@ -39,6 +39,7 @@ module "rds" {
   engine_version          = each.value["engine_version"]
   backup_retention_period = each.value["backup_retention_period"]
   preferred_backup_window = each.value["preferred_backup_window"]
+  skip_final_snapshot     = each.value["skip_final_snapshot"]
   no_of_instances         = each.value["no_of_instances"]
   instance_class          = each.value["instance_class"]
 
