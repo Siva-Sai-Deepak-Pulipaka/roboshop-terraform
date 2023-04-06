@@ -91,7 +91,7 @@ module "app" {
   env    = var.env
   tags   = var.tags
   bastion_cidr = var.bastion_cidr
-  dns_domain       = each.value["dns_domain"]
+  dns_domain   = var.dns_domain
   
   vpc_id = module.vpc["main"].vpc_id
 
