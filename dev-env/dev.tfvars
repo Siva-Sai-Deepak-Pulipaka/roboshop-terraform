@@ -1,5 +1,6 @@
 env = "dev"
 bastion_cidr = ["172.31.3.103/32"]       # /32 represents single IP
+dns_domain = "easydevops.online"
 
 vpc = {
     main = {                            #naming is our convinience. main will not leads to collision of another vpc if it is created. 
@@ -98,12 +99,14 @@ alb = {
         name                = "public"
         internal            = false
         load_balancer_type  = "application"
+        allow_cidr          = ["0.0.0.0/0"]
     }
     private = {
         subnet_name         = "app"
-        name                = "public"
+        name                = "private"
         internal            = true
         load_balancer_type  = "application"
+        allow_cidr          = ["10.0.2.0/24","10.0.3.0/24","10.0.4.0/24","10.0.5.0/24"]
     }
 }
 
@@ -116,7 +119,9 @@ apps = {
         min_size         = 1
         subnet_name      = "app"
         port             = 8080
-        allow_app_to        = "app"
+        allow_app_to     = "app"
+        elb              = "private"
+        listener_priority = 10
     }
     cart = {
         component        = "cart"
@@ -126,7 +131,9 @@ apps = {
         min_size         = 1
         subnet_name      = "app"
         port             = 8080
-        allow_app_to        = "app"
+        allow_app_to     = "app"
+        elb              = "private"
+        listener_priority = 11
     }
     user = {
         component        = "user"
@@ -136,7 +143,9 @@ apps = {
         min_size         = 1
         subnet_name      = "app"
         port             = 8080
-        allow_app_to        = "app"
+        allow_app_to     = "app"
+        elb              = "private"
+        listener_priority = 12
     }
     payment = {
         component        = "payment"
@@ -146,7 +155,9 @@ apps = {
         min_size         = 1
         subnet_name      = "app"
         port             = 8080
-        allow_app_to        = "app"
+        allow_app_to     = "app"
+        elb              = "private"
+        listener_priority = 13
     }
     shipping = {
         component        = "shipping"
@@ -156,7 +167,9 @@ apps = {
         min_size         = 1
         subnet_name      = "app"
         port             = 8080
-        allow_app_to        = "app"
+        allow_app_to     = "app"
+        elb              = "private"
+        listener_priority = 14
     }
     dispatch = {
         component        = "dispatch"
@@ -166,7 +179,9 @@ apps = {
         min_size         = 1
         subnet_name      = "app"
         port             = 8080
-        allow_app_to        = "app"
+        allow_app_to     = "app"
+        elb              = "private"
+        listener_priority = 15
     }
     frontend = {
         component        = "frontend"
@@ -176,6 +191,8 @@ apps = {
         min_size         = 1
         subnet_name      = "web"
         port             = 80                     #nginx port
-        allow_app_to        = "public"
+        allow_app_to     = "public"
+        elb              = "public"
+        listener_priority = 10
     }
 }
