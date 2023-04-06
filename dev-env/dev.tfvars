@@ -120,7 +120,7 @@ apps = {
         subnet_name      = "app"
         port             = 8080
         allow_app_to     = "app"
-        elb              = "private"
+        alb              = "private"
         listener_priority = 10
     }
     cart = {
@@ -132,7 +132,7 @@ apps = {
         subnet_name      = "app"
         port             = 8080
         allow_app_to     = "app"
-        elb              = "private"
+        alb              = "private"
         listener_priority = 11
     }
     user = {
@@ -144,7 +144,7 @@ apps = {
         subnet_name      = "app"
         port             = 8080
         allow_app_to     = "app"
-        elb              = "private"
+        alb              = "private"
         listener_priority = 12
     }
     payment = {
@@ -156,7 +156,7 @@ apps = {
         subnet_name      = "app"
         port             = 8080
         allow_app_to     = "app"
-        elb              = "private"
+        alb              = "private"
         listener_priority = 13
     }
     shipping = {
@@ -168,7 +168,7 @@ apps = {
         subnet_name      = "app"
         port             = 8080
         allow_app_to     = "app"
-        elb              = "private"
+        alb              = "private"
         listener_priority = 14
     }
     dispatch = {
@@ -180,7 +180,7 @@ apps = {
         subnet_name      = "app"
         port             = 8080
         allow_app_to     = "app"
-        elb              = "private"
+        alb              = "private"
         listener_priority = 15
     }
     frontend = {
@@ -192,7 +192,7 @@ apps = {
         subnet_name      = "web"
         port             = 80                     #nginx port
         allow_app_to     = "public"
-        elb              = "public"
+        alb              = "public"
         listener_priority = 10
     }
 }
