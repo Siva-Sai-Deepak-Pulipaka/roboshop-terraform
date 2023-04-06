@@ -1,4 +1,5 @@
 env = "dev"
+bastion_cidr = ["172.31.3.103/32"]       # /32 represents single IP
 
 vpc = {
     main = {                            #naming is our convinience. main will not leads to collision of another vpc if it is created. 
@@ -87,6 +88,94 @@ elasticache = {
 
 rabbitmq = {
     main = {
-        instance_type           = "t3.micro"
+        instance_type        = "t3.micro"
+    }
+}
+
+alb = {
+    public = {
+        subnet_name         = "public"
+        name                = "public"
+        internal            = false
+        load_balancer_type  = "application"
+    }
+    private = {
+        subnet_name         = "app"
+        name                = "public"
+        internal            = true
+        load_balancer_type  = "application"
+    }
+}
+
+apps = {
+    catalogue = {
+        component        = "catalogue"
+        instance_type    = "t3.micro"
+        desired_capacity = 1
+        max_size         = 4
+        min_size         = 1
+        subnet_name      = "app"
+        port             = 8080
+        allow_app_to        = "app"
+    }
+    cart = {
+        component        = "cart"
+        instance_type    = "t3.micro"
+        desired_capacity = 1
+        max_size         = 4
+        min_size         = 1
+        subnet_name      = "app"
+        port             = 8080
+        allow_app_to        = "app"
+    }
+    user = {
+        component        = "user"
+        instance_type    = "t3.micro"
+        desired_capacity = 1
+        max_size         = 4
+        min_size         = 1
+        subnet_name      = "app"
+        port             = 8080
+        allow_app_to        = "app"
+    }
+    payment = {
+        component        = "payment"
+        instance_type    = "t3.micro"
+        desired_capacity = 1
+        max_size         = 4
+        min_size         = 1
+        subnet_name      = "app"
+        port             = 8080
+        allow_app_to        = "app"
+    }
+    shipping = {
+        component        = "shipping"
+        instance_type    = "t3.micro"
+        desired_capacity = 1
+        max_size         = 4
+        min_size         = 1
+        subnet_name      = "app"
+        port             = 8080
+        allow_app_to        = "app"
+    }
+    dispatch = {
+        component        = "dispatch"
+        instance_type    = "t3.micro"
+        desired_capacity = 1
+        max_size         = 4
+        min_size         = 1
+        subnet_name      = "app"
+        port             = 8080
+        allow_app_to        = "app"
+    }
+    frontend = {
+        component        = "frontend"
+        instance_type    = "t3.micro"
+        desired_capacity = 1
+        max_size         = 4
+        min_size         = 1
+        subnet_name      = "web"
+        port             = 80                     #nginx port
+        allow_app_to        = "public"
     }
 }
