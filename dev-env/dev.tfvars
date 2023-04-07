@@ -62,6 +62,7 @@ docdb = {
         skip_final_snapshot     = true    #this is used as backup. before deleting it will store as snapshot. 
         no_of_instances         = 1
         instance_class          = "db.t3.medium"
+        allow_subnets           = "app"
     }
 }
 
