@@ -15,7 +15,9 @@ module "docdb" {
   source = "git::https://github.com/Siva-Sai-Deepak-Pulipaka/terraform-docdb-module.git"
   env    = var.env
   tags   = var.tags
+  
   subnet_ids              = local.db_subnet_ids
+  vpc_id                  = module.vpc["main"].vpc_id
 
   for_each                = var.docdb
   engine                  = each.value["engine"]
@@ -25,6 +27,7 @@ module "docdb" {
   skip_final_snapshot     = each.value["skip_final_snapshot"]
   no_of_instances         = each.value["no_of_instances"]
   instance_class          = each.value["instance_class"]
+  allow_subnets           = lookup(local.subnet_cidr, each.value["allow_subnets"], null)
 
 }
 
@@ -32,6 +35,7 @@ module "rds" {
   source = "git::https://github.com/Siva-Sai-Deepak-Pulipaka/terraform-rds-module.git"
   env    = var.env
   tags   = var.tags
+ 
   subnet_ids              = local.db_subnet_ids
 
   for_each                = var.rds
@@ -49,6 +53,7 @@ module "elasticache" {
   source = "git::https://github.com/Siva-Sai-Deepak-Pulipaka/terraform-elasticache-module.git"
   env    = var.env
   tags   = var.tags
+  
   subnet_ids = local.db_subnet_ids
 
   for_each                = var.elasticache
@@ -64,6 +69,7 @@ module "rabbitmq" {
   source = "git::https://github.com/Siva-Sai-Deepak-Pulipaka/terraform-rabbitmq-module.git"
   env    = var.env
   tags   = var.tags
+  
   subnet_ids = local.db_subnet_ids
   
 
@@ -111,6 +117,6 @@ module "app" {
 
 }
 
-output "vpc" {
-  value = module.vpc
+output "alb" {
+  value = module.alb
 }
