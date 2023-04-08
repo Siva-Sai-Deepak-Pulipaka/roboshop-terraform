@@ -153,7 +153,7 @@ apps = {
         allow_app_to     = "app"
         alb              = "private"
         listener_priority = 12
-        parameters       = []
+        parameters       = ["docdb", "elasticache"]
     }
     payment = {
         component        = "payment"
@@ -166,7 +166,7 @@ apps = {
         allow_app_to     = "app"
         alb              = "private"
         listener_priority = 13
-        parameters       = []
+        parameters       = ["rabbitmq"]
     }
     shipping = {
         component        = "shipping"
