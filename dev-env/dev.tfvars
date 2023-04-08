@@ -75,6 +75,8 @@ rds = {
         skip_final_snapshot     = true
         no_of_instances         =  1
         instance_class          = "db.t3.small"
+        allow_subnets           = "app"
+
     }
 }
 
@@ -84,6 +86,7 @@ elasticache = {
         engine_version          = "6.x"     #we are using redis 6
         node_type               = "cache.t3.micro"
         num_cache_nodes         = 1
+        allow_subnets           = "app"
 
     }
 }
@@ -91,6 +94,7 @@ elasticache = {
 rabbitmq = {
     main = {
         instance_type        = "t3.micro"
+        allow_subnets        = "app"
     }
 }
 
@@ -123,6 +127,7 @@ apps = {
         allow_app_to     = "app"
         alb              = "private"
         listener_priority = 10
+        parameters        = ["docdb"]
     }
     cart = {
         component        = "cart"
@@ -135,6 +140,7 @@ apps = {
         allow_app_to     = "app"
         alb              = "private"
         listener_priority = 11
+        parameters       = ["elasticache"]
     }
     user = {
         component        = "user"
@@ -147,6 +153,7 @@ apps = {
         allow_app_to     = "app"
         alb              = "private"
         listener_priority = 12
+        parameters       = []
     }
     payment = {
         component        = "payment"
@@ -159,6 +166,7 @@ apps = {
         allow_app_to     = "app"
         alb              = "private"
         listener_priority = 13
+        parameters       = []
     }
     shipping = {
         component        = "shipping"
@@ -171,6 +179,7 @@ apps = {
         allow_app_to     = "app"
         alb              = "private"
         listener_priority = 14
+        parameters       = ["rds"]
     }
     dispatch = {
         component        = "dispatch"
@@ -183,6 +192,7 @@ apps = {
         allow_app_to     = "app"
         alb              = "private"
         listener_priority = 15
+        parameters       = []
     }
     frontend = {
         component        = "frontend"
@@ -195,5 +205,6 @@ apps = {
         allow_app_to     = "public"
         alb              = "public"
         listener_priority = 10
+        parameters       = []
     }
 }
