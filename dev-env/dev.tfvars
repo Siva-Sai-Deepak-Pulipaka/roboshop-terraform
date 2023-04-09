@@ -1,5 +1,6 @@
 env = "dev"
 bastion_cidr = ["172.31.3.103/32"]       # /32 represents single IP
+monitoring_nodes   = ["172.31.8.27/32"]
 dns_domain = "easydevops.online"
 
 vpc = {

@@ -106,9 +106,13 @@ module "app" {
 
   source = "git::https://github.com/Siva-Sai-Deepak-Pulipaka/terraform-app-module.git"
   env    = var.env
-  tags   = var.tags
+  tags = merge(
+    var.tags,
+    { Monitor = "yes" }
+  )
   bastion_cidr = var.bastion_cidr
   dns_domain   = var.dns_domain
+  monitoring_nodes = var.monitoring_nodes
   
   vpc_id = module.vpc["main"].vpc_id
 
