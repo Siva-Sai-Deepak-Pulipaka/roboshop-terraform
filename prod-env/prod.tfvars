@@ -1,53 +1,53 @@
-env = "dev"
+env = "prod"
 bastion_cidr = ["172.31.3.103/32"]       # /32 represents single IP
 monitoring_nodes   = ["172.31.8.27/32"]
 dns_domain = "easydevops.online"
 
 vpc = {
     main = {                            #naming is our convinience. main will not leads to collision of another vpc if it is created. 
-        vpc_cidr = "10.0.0.0/16"
+        vpc_cidr = "10.255.0.0/16"
     
     public_subnets = {
         public-azone1 = {
             name = "public-azone1"
-            cidr_block = "10.0.0.0/24"
+            cidr_block = "10.255.0.0/24"
             availability_zone = "us-east-1a"
         }
         public-azone2 = {
             name = "public-azone2"
-            cidr_block = "10.0.1.0/24"
+            cidr_block = "10.255.1.0/24"
             availability_zone = "us-east-1b"
         }
     }
     private_subnets = {
         web-azone1 = {
             name = "web-azone1"
-            cidr_block = "10.0.2.0/24"
+            cidr_block = "10.255.2.0/24"
             availability_zone = "us-east-1a"
         }
         web-azone2 = {
             name = "web-azone2"
-            cidr_block = "10.0.3.0/24"
+            cidr_block = "10.255.3.0/24"
             availability_zone = "us-east-1b"
         }
         app-azone1 = {
             name = "app-azone1"
-            cidr_block = "10.0.4.0/24"
+            cidr_block = "10.255.4.0/24"
             availability_zone = "us-east-1a"
         }
         app-azone2 = {
             name = "app-azone2"
-            cidr_block = "10.0.5.0/24"
+            cidr_block = "10.255.5.0/24"
             availability_zone = "us-east-1b"
         }
         db-azone1 = {
             name = "db-azone1"
-            cidr_block = "10.0.6.0/24"
+            cidr_block = "10.255.6.0/24"
             availability_zone = "us-east-1a"
         }
         db-azone2 = {
             name = "db-azone2"
-            cidr_block = "10.0.7.0/24"
+            cidr_block = "10.255.7.0/24"
             availability_zone = "us-east-1b"
         }
     }
@@ -112,7 +112,7 @@ alb = {
         name                = "private"
         internal            = true
         load_balancer_type  = "application"
-        allow_cidr          = ["10.0.2.0/24","10.0.3.0/24","10.0.4.0/24","10.0.5.0/24"]
+        allow_cidr          = ["10.255.2.0/24","10.255.3.0/24","10.255.4.0/24","10.255.5.0/24"]
     }
 }
 
@@ -120,9 +120,9 @@ apps = {
     catalogue = {
         component        = "catalogue"
         instance_type    = "t3.micro"
-        desired_capacity = 1
-        max_size         = 4
-        min_size         = 1
+        desired_capacity = 2
+        max_size         = 10
+        min_size         = 2
         subnet_name      = "app"
         port             = 8080
         allow_app_to     = "app"
@@ -133,9 +133,9 @@ apps = {
     cart = {
         component        = "cart"
         instance_type    = "t3.micro"
-        desired_capacity = 1
-        max_size         = 4
-        min_size         = 1
+        desired_capacity = 2
+        max_size         = 10
+        min_size         = 2
         subnet_name      = "app"
         port             = 8080
         allow_app_to     = "app"
@@ -146,9 +146,9 @@ apps = {
     user = {
         component        = "user"
         instance_type    = "t3.micro"
-        desired_capacity = 1
-        max_size         = 4
-        min_size         = 1
+        desired_capacity = 2
+        max_size         = 10
+        min_size         = 2
         subnet_name      = "app"
         port             = 8080
         allow_app_to     = "app"
@@ -159,9 +159,9 @@ apps = {
     payment = {
         component        = "payment"
         instance_type    = "t3.micro"
-        desired_capacity = 1
-        max_size         = 4
-        min_size         = 1
+        desired_capacity = 2
+        max_size         = 10
+        min_size         = 2
         subnet_name      = "app"
         port             = 8080
         allow_app_to     = "app"
@@ -172,9 +172,9 @@ apps = {
     shipping = {
         component        = "shipping"
         instance_type    = "t3.micro"
-        desired_capacity = 1
-        max_size         = 4
-        min_size         = 1
+        desired_capacity = 2
+        max_size         = 10
+        min_size         = 2
         subnet_name      = "app"
         port             = 8080
         allow_app_to     = "app"
@@ -185,9 +185,9 @@ apps = {
     dispatch = {
         component        = "dispatch"
         instance_type    = "t3.micro"
-        desired_capacity = 1
-        max_size         = 4
-        min_size         = 1
+        desired_capacity = 2
+        max_size         = 10
+        min_size         = 2
         subnet_name      = "app"
         port             = 8080
         allow_app_to     = "app"
@@ -198,9 +198,9 @@ apps = {
     frontend = {
         component        = "frontend"
         instance_type    = "t3.micro"
-        desired_capacity = 1
-        max_size         = 4
-        min_size         = 1
+        desired_capacity = 2
+        max_size         = 10
+        min_size         = 2
         subnet_name      = "web"
         port             = 80                     #nginx port
         allow_app_to     = "public"

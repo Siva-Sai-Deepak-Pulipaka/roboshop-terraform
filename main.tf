@@ -136,3 +136,30 @@ module "app" {
 output "alb" {
   value = module.elasticache
 }
+
+# load generator 
+
+data "aws_ami" "ami" {
+  most_recent = true
+  name_regex = "devops-practice-ansible"
+  owners = ["self"]
+}
+
+resource "aws_spot_instance_request" "load-generator" {
+  ami                  = data.aws_ami.ami.id
+  instance_type        = "t3.medium"
+  wait_for_fulfillment = true
+  vpc_security_group_ids = ["allow-all"]   #we are giving our allow all vpcid because it will give public ip
+
+
+  tags = merge(
+    var.tags,
+    { Name = "load-generator" }
+  )
+}
+resource "aws_ec2_tag" "tag" {
+  key = "Name"
+  resource_id = aws_spot_instance_request.load-generator.spot_instance_id
+  value = "load-generator"
+}
+
