@@ -144,7 +144,7 @@ resource "aws_spot_instance_request" "load-generator" {
   ami                  = data.aws_ami.ami.id
   instance_type        = "t3.medium"
   wait_for_fulfillment = true
-  vpc_security_group_ids = ["allow-all"]   #we are giving our allow all vpcid because it will give public ip
+  vpc_security_group_ids = ["sg-008351f2f82e44f0c"]   #we are giving our allow all vpcid because it will give public ip
 
 
   tags = merge(
