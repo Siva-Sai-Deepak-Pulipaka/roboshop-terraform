@@ -161,6 +161,9 @@ resource "aws_ec2_tag" "tag" {
 # load generator can be automated by the below code
 
 resource "null_resource" "load-gen" {
+  triggers = {
+    abc = aws_spot_instance_request.load-generator.public_ip
+  }
   provisioner "remote-exec" {
     connection {
       host = aws_spot_instance_request.load-generator.public_ip
