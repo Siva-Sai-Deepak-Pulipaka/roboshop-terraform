@@ -102,7 +102,7 @@ module "alb" {
 
 module "app" {
 
-  # depends_on = [module.docdb, module.elasticache, module.alb, module.rds, module.rabbitmq]
+  depends_on = [module.vpc, module.docdb, module.rds, module.elasticache, module.alb, module.rabbitmq]
 
   source = "git::https://github.com/Siva-Sai-Deepak-Pulipaka/terraform-app-module.git"
   env    = var.env
