@@ -37,5 +37,12 @@ secrets = [
     { name = "prod.ssh.pass", value = "DevOps321", type = "SecureString" },
     { name = "prod.ssh.user", value = "centos", type = "SecureString" },
     { name = "prod.nexus.pass", value = "admin123", type = "SecureString" },
-    { name = "prod.nexus.user", value = "admin", type = "SecureString" }
+    { name = "prod.nexus.user", value = "admin", type = "SecureString" },
+    { name = "prod.frontend.app_version", value = "1.0.0", type = "SecureString" },
+    { name = "prod.catalogue.app_version", value = "1.0.0", type = "SecureString" },
+    { name = "prod.cart.app_version", value = "1.0.0", type = "SecureString" },
+    { name = "prod.user.app_version", value = "1.0.1", type = "SecureString" },
+    { name = "prod.payment.app_version", value = "1.0.0", type = "SecureString" },
+    { name = "prod.shipping.app_version", value = "1.0.1", type = "SecureString" },
+    { name = "prod.dispatch.app_version", value = "1.0.0", type = "SecureString" }
 ]
